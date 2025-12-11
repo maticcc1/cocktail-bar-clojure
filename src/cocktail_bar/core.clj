@@ -20,3 +20,57 @@
   "Return a sequence of all cocktail names."
   []
   (map :name cocktails))
+(defn return-alcoholic-cocktails
+  "Return only alcoholic cocktails."
+  []
+  (filter
+    (fn [cocktail]
+      (= (:type cocktail) :alcoholic))
+    cocktails))
+(defn return-non-alcoholic-cocktails
+  "Return only non-alcoholic cocktails."
+  []
+  (filter  (fn [cocktail]
+             (= (:type cocktail) :non-alcoholic))
+           cocktails))
+
+(defn return-cocktail-by-name
+  "Find first cocktail with given name, or nil if not found."
+  [name]
+  (first
+    (filter
+      (fn [cocktail]
+        (= (:name cocktail) name))
+      cocktails)))
+
+
+(defn contains-ingredient?
+  "Return true if ingredients collection contains given ingredient keyword."
+  [ingredient ingredients]
+  (reduce
+    (fn [found current-ingredient]
+      (if found
+        true
+        (= current-ingredient ingredient)))
+    false
+    ingredients))
+
+
+(defn return-cocktails-with-ingredient
+  "Return all cocktails that contain given ingredient."
+  [ingredient]
+  (filter
+    (fn [cocktail]
+      (contains-ingredient? ingredient (:ingredients cocktail)))
+    cocktails))
+
+
+(defn total-price-of-cocktails
+  "Calculate sum of :price for given collection of cocktails."
+  [cocktail-list]
+  (reduce
+    (fn [current-sum cocktail]
+      (+ current-sum (:price cocktail)))
+    0
+    cocktail-list))
+
